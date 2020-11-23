@@ -24,6 +24,8 @@ function Respuesta(respuesta){
 
         movieContainer.setAttribute("class", "movie");
 
+        movieContainer.name = peliculas[i].imdbID;
+
         pelicula.appendChild(movieContainer);
         
         //Fondo
@@ -160,18 +162,30 @@ function Respuesta(respuesta){
                     movieProduction = document.createElement('h5');
                     movieProduction.innerHTML = "Producción: "+peliculasExp[i].Production;
                     detailsExp.appendChild(movieProduction);
-                desc.appendChild(detailsExp);
+                
                     */
+                desc.appendChild(detailsExp);
             movieContainer.appendChild(desc);
     }
+    let movies = document.getElementsByClassName('movie');
+    movies = [].slice.call(movies);
+    
+    movies.forEach(movie => {
+        movie.addEventListener('click', () => {
+            ajaxCall("http://www.omdbapi.com/?apikey=ec699f85&plot=full&r=json&tomatoes=true&i="+movie.name, Respuesta);
+            focus(movie, movies);
+        });
+    });
 }
 
 var search = document.getElementById('search');
 
 search.addEventListener("click", () =>{
     var name = document.getElementById('name').value;
-    ajaxCall("http://www.omdbapi.com/?apikey=ec699f85&s="+name, Respuesta);
-})
+    ajaxCall("http://www.omdbapi.com/?apikey=ec699f85&s="+name, Respuesta); 
+});
+
+
 /*
     <!--este div gana su imagen de fondo con js-->
     <div class="movie" style="background-image: url(https://m.media-amazon.com/images/M/MV5BOTY4YjI2N2MtYmFlMC00ZjcyLTg3YjEtMDQyM2ZjYzQ5YWFkXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX3000.jpg);">

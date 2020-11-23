@@ -1,14 +1,5 @@
-let movies = document.getElementsByClassName('movie');
-movies = [].slice.call(movies);
-
-movies.forEach(movie => {
-	movie.addEventListener('click', () => {
-		focus(movie);
-	});
-});
-
 //después de 80 años, anduvo como quería
-function focus(source) {
+function focus(source, movies) {
 	if (source.classList.contains('focused')) {
 		movies.forEach(movie => {
 			movie.classList.value = 'movie';
