@@ -123,15 +123,17 @@ function expandDetails(source) {
 
 				let source = document.createElement('span');
 				//origen
-				source.innerText = element['Source'];
+				source.innerText = element['Source'] + ': ';
 				item.appendChild(source);
 				// //valor
 				// element['Value']
-				item.innerText = ': ' + element['Value'];
+				item.innerHTML += element['Value'];
 
 			});
 
 			ratingsContainer.appendChild(ratingsList);
+		} else {
+			//casos genéricos
 		}
 	}
 
