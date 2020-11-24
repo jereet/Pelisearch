@@ -1,6 +1,6 @@
 let results, mostrados = 0;
-let show = 0;
-
+let show = [0,0,0,0,0];
+let valor = [];
 function ajaxReq(url) {
 	let xmlhttp = new XMLHttpRequest();
 	xmlhttp.onload = () => {
@@ -88,13 +88,19 @@ function showResults() {
 			
 			setTimeout(() => {
 				focus(movie, movies);
-				console.log(movie.id);
-				movies.forEach(element =>{
-				if(show < 5){
-				expandDetails(element);
+				
+				if(show[0] < 5){
+					
+					if(valor[0] == movie.id || valor[1] == movie.id || valor[2] == movie.id || valor[3] == movie.id){
+						show[0]--;
+					}else{
+						for(i=show[0];i<show[0]+1;i++){
+						expandDetails(movie);
+						valor[i] = movie.id;
+					}
+				}
+				show[0]++;
 			}
-			show++;
-		})
 			}, 250);
         });
     });
