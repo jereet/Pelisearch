@@ -24,7 +24,7 @@ function Respuesta(respuesta){
 
         movieContainer.setAttribute("class", "movie");
 
-        movieContainer.name = peliculas[i].imdbID;
+        movieContainer.id = peliculas[i].imdbID;
 
         pelicula.appendChild(movieContainer);
         
