@@ -21,63 +21,63 @@ function showResults() {
 
 	let contenedor = document.querySelector('.movies');
 
+	var parametro = document.getElementById('parametro').value;
+
 	results.forEach(pelicula => {
+			if (mostrados < parametro) {
 
-		if (mostrados < 5) {
+				//crear y añadir el contenedor de la película
+				let movie = document.createElement('div');
+				movie.classList.value = 'movie';
+				movie.id = pelicula.imdbID;
 
-			//crear y añadir el contenedor de la película
-			let movie = document.createElement('div');
-			movie.classList.value = 'movie';
-			movie.id = pelicula.imdbID;
+				movie.style.backgroundImage = `url(${pelicula.Poster})`;
 
-			movie.style.backgroundImage = `url(${pelicula.Poster})`;
+				contenedor.appendChild(movie);
 
-			contenedor.appendChild(movie);
+				//contenedor de descripción
+				let desc = document.createElement('div');
+				desc.classList.value = 'desc';
 
-			//contenedor de descripción
-			let desc = document.createElement('div');
-			desc.classList.value = 'desc';
+				movie.appendChild(desc);
 
-			movie.appendChild(desc);
+				//link a la imagen
+				let imgLink = document.createElement('a');
+				imgLink.classList.value = 'poster';
+				imgLink.href = pelicula.Poster.replace(300, 3000);
 
-			//link a la imagen
-			let imgLink = document.createElement('a');
-			imgLink.classList.value = 'poster';
-			imgLink.href = pelicula.Poster.replace(300, 3000);
+				desc.appendChild(imgLink);
 
-			desc.appendChild(imgLink);
+				//poster del link
+				let img = document.createElement('img');
+				img.src = pelicula.Poster;
+				//texto que indica que se puede ampliar
+				let spanText = document.createElement('span');
+				spanText.innerHTML = '<i class="fas fa-expand-arrows-alt"></i> Ampliar poster';
 
-			//poster del link
-			let img = document.createElement('img');
-			img.src = pelicula.Poster;
-			//texto que indica que se puede ampliar
-			let spanText = document.createElement('span');
-			spanText.innerHTML = '<i class="fas fa-expand-arrows-alt"></i> Ampliar poster';
+				imgLink.appendChild(spanText);
+				imgLink.appendChild(img);
 
-			imgLink.appendChild(spanText);
-			imgLink.appendChild(img);
+				let details = document.createElement('div');
+				details.classList.value = 'details';
 
-			let details = document.createElement('div');
-			details.classList.value = 'details';
+				desc.appendChild(details);
 
-			desc.appendChild(details);
+				let detailsContent = [];
+				for (let index = 0; index < 3; index++) {
+					detailsContent.push(document.createElement('h6'));
+				}
 
-			let detailsContent = [];
-			for (let index = 0; index < 3; index++) {
-				detailsContent.push(document.createElement('h6'));
+				detailsContent[0].innerHTML = pelicula.Title;
+				detailsContent[1].innerHTML = pelicula.Year;
+				detailsContent[2].innerHTML = pelicula.Type;
+
+				detailsContent.forEach(element => {
+					details.appendChild(element);
+				});
+
 			}
-
-			detailsContent[0].innerHTML = pelicula.Title;
-			detailsContent[1].innerHTML = pelicula.Year;
-			detailsContent[2].innerHTML = pelicula.Type;
-
-			detailsContent.forEach(element => {
-				details.appendChild(element);
-			});
-
-		}
-
-		mostrados++;
+			mostrados++;
 	});
 	let movies = document.getElementsByClassName('movie');
     movies = [].slice.call(movies);
@@ -89,7 +89,7 @@ function showResults() {
 			setTimeout(() => {
 				focus(movie, movies);
 				
-				if(show[0] < 5){
+				if(show[0] < parametro){
 					
 					if(valor[0] == movie.id || valor[1] == movie.id || valor[2] == movie.id || valor[3] == movie.id){
 						show[0]--;
@@ -185,9 +185,7 @@ function expandDetails(source) {
 search.addEventListener("click", () => {
 
 	ajaxReq("http://www.omdbapi.com/?apikey=ec699f85&s=" + document.getElementById('name').value);
-
 	setTimeout(() => {
 		showResults();
 	}, 250);
-
 });
