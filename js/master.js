@@ -14,3 +14,17 @@ function focus(source, movies) {
 		});
 	}
 }
+
+function searchMenu() {
+	if (document.querySelector('.search').style.top == "0px" || document.querySelector('.search').style.top == "") {
+		
+		document.querySelector('.search').style.top = "70px";
+		document.querySelector('.search').style.opacity = "1";
+
+	} else {
+
+		document.querySelector('.search').style.top = 0;
+		document.querySelector('.search').style.opacity = "0";
+
+	}
+}

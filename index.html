@@ -12,24 +12,23 @@
 	<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap"
 		rel="stylesheet">
 	<script src="https://kit.fontawesome.com/79cc46baec.js" crossorigin="anonymous" async></script>
-	<script src="js/ajax2.js" defer></script>
+	<script src="js/ajax.js" defer></script>
 	<script src="js/master.js" defer></script>
 </head>
 
 <body>
 	<header>
 		<h1>Pelisearch</h1>
+		<div class="search">
+			<input type="text" placeholder="Search by name" id="name">
+			<button id="search"><i class="fas fa-search"></i>Search</button>
+		</div>
+		<button onclick="searchMenu()"><i class="fas fa-search"></i></button>
 	</header>
-	<div class="container-fluid">
-		<aside>
-			<input type="text" placeholder="Buscar por nombre" id="name">
-			<button id="search"><i class="fas fa-search"></i>Buscar</button>
-		</aside>
-		<section>
-			<div class="movies">
-			
-			</div>
-		</section>
+	<div class="container">
+		<div class="movies">
+		
+		</div>
 	</div>
 </body>
 
