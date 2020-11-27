@@ -22,8 +22,11 @@
 	</header>
 	<div class="container-fluid">
 		<aside>
-			<input type="text" placeholder="Buscar por nombre" id="name">
-			<button id="search"><i class="fas fa-search"></i>Buscar</button>
+			<form>
+				<input type="text" minlength="1" placeholder="Buscar por nombre" id="name" required>
+				<input type="number" minlength="1" min="1" max="10" placeholder="Cantidad de resultados" id="parametro" required>
+				<button id="search" type="button"><i class="fas fa-search"></i>Buscar</button>
+			</form>
 		</aside>
 		<section>
 			<div class="movies">
