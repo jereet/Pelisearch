@@ -2,7 +2,6 @@ let results;
 let search = document.getElementById('search'), name = document.getElementById('name');
 let things = ['Title', 'Year', 'Rated', 'Type', 'Plot', 'Runtime', 'Genre', 'Director', 'Writer', 'Actors', 'Awards', 'Rated', 'imdbVotes', 'Production'];
 let previousSearch = '';
-
 //requerimiento ajax
 function ajaxReq(url) {
 	let xmlhttp = new XMLHttpRequest();
@@ -19,7 +18,6 @@ function ajaxReq(url) {
 
 //funcion para mostrar los resultados y cargarles sus datos básicos
 function showResults() {
-
 	let contenedor = document.querySelector('.movies');
 	
 	//si no hubo resultados en la consulta
@@ -29,6 +27,7 @@ function showResults() {
 		contenedor.innerHTML = "";
 		contenedor.style.backgroundImage = "url('https://cdn.dribbble.com/users/252114/screenshots/3840347/mong03b.gif')";
 
+		Show.innerHTML = "";
 		return;
 	}
 	
@@ -44,9 +43,13 @@ function showResults() {
 		//cargar los elementos en el contenedor
 		createElements(contenedor);
 
+		//Show.innerHTML = "";
+
+		showNameResult();
+
 	} else {
 		//si se buscó algo antes, pero la búsqueda es nueva
-		if (previousSearch != name.value) {
+		if (previousSearch != (name.value).toLowerCase()) {
 			
 			//eliminar el contenido anterior y la imagen de error
 			contenedor.innerHTML = '';
@@ -55,10 +58,17 @@ function showResults() {
 			//cargar los elementos
 			createElements(contenedor);
 
+			showNameResult();
+
 		}
 	}
 }
+//Funcion para cargar el nombre de los resultados
+function showNameResult(){
+	let ShowName = document.getElementById('showName');
 
+	ShowName.innerHTML = "<h1>Resultados de "+(name.value).toUpperCase()+"</h1>";
+}
 //función para cargar los elementos
 function createElements(contenedor) {
 	
@@ -232,13 +242,13 @@ function expandDetails(source) {
 search.addEventListener("click", () => {
 
 	//validar el campo
-	if (name.value != "") {
+	if ((name.value).toLowerCase() != "") {
 
-		ajaxReq("http://www.omdbapi.com/?apikey=ec699f85&s=" + name.value);
+		ajaxReq("http://www.omdbapi.com/?apikey=ec699f85&s=" + (name.value).toLowerCase());
 
 		setTimeout(() => {
 			showResults();
-			previousSearch = name.value;
+			previousSearch = (name.value).toLowerCase();
 		}, 300);
 
 	} else {
