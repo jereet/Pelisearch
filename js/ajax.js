@@ -17,6 +17,40 @@ function ajaxReq(url) {
 	xmlhttp.send();
 }
 
+
+function showResults() {
+
+	let contenedor = document.querySelector('.movies');
+	
+	if (results.Search == undefined) {
+
+		contenedor.innerHTML = "";
+		contenedor.style.backgroundImage = "url('https://cdn.dribbble.com/users/252114/screenshots/3840347/mong03b.gif')";
+
+		return;
+	}
+	
+	
+	results = results.Search;
+
+
+	if (previousSearch == '') {
+
+		contenedor.style.backgroundImage = "";
+		createElements(contenedor);
+
+	} else {
+		if (previousSearch != name.value) {
+			
+			contenedor.innerHTML = '';
+			contenedor.style.backgroundImage = "";
+			
+			createElements(contenedor);
+
+		}
+	}
+}
+
 function createElements(contenedor) {
 	
 	results.forEach(pelicula => {
@@ -101,39 +135,6 @@ function createElements(contenedor) {
 		});
 	});
 
-}
-
-function showResults() {
-
-	let contenedor = document.querySelector('.movies');
-	
-	if (results.Response == 'False') {
-
-		contenedor.style.backgroundImage = "url('https://cdn.dribbble.com/users/252114/screenshots/3840347/mong03b.gif')";
-
-		return;
-
-	}
-	
-	
-	results = results.Search;
-
-
-	if (previousSearch == '') {
-
-		contenedor.style.backgroundImage = "";
-		createElements(contenedor);
-
-	} else {
-		if (previousSearch != name.value) {
-			
-			contenedor.innerHTML = '';
-			contenedor.style.backgroundImage = "";
-			
-			createElements(contenedor);
-
-		}
-	}
 }
 
 
