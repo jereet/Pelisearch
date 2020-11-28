@@ -3,7 +3,7 @@ let search = document.getElementById('search'), name = document.getElementById('
 let things = ['Title', 'Year', 'Rated', 'Type', 'Plot', 'Runtime', 'Genre', 'Director', 'Writer', 'Actors', 'Awards', 'Rated', 'imdbVotes', 'Production'];
 let previousSearch = '';
 
-
+//requerimiento ajax
 function ajaxReq(url) {
 	let xmlhttp = new XMLHttpRequest();
 	xmlhttp.onload = () => {
@@ -17,42 +17,52 @@ function ajaxReq(url) {
 	xmlhttp.send();
 }
 
-
+//funcion para mostrar los resultados y cargarles sus datos básicos
 function showResults() {
 
 	let contenedor = document.querySelector('.movies');
 	
+	//si no hubo resultados en la consulta
 	if (results.Search == undefined) {
 
+		//en caso de que haya algo cargado, borrarlo y ponerle el gif de error
 		contenedor.innerHTML = "";
 		contenedor.style.backgroundImage = "url('https://cdn.dribbble.com/users/252114/screenshots/3840347/mong03b.gif')";
 
 		return;
 	}
 	
-	
+	//si no hubo errores, igualar la llamada a los resultados de la búsqueda
 	results = results.Search;
 
 
+	//si no se buscó nada antes
 	if (previousSearch == '') {
 
+		//eliminar la imagen de fondo si la hay
 		contenedor.style.backgroundImage = "";
+		//cargar los elementos en el contenedor
 		createElements(contenedor);
 
 	} else {
+		//si se buscó algo antes, pero la búsqueda es nueva
 		if (previousSearch != name.value) {
 			
+			//eliminar el contenido anterior y la imagen de error
 			contenedor.innerHTML = '';
 			contenedor.style.backgroundImage = "";
 			
+			//cargar los elementos
 			createElements(contenedor);
 
 		}
 	}
 }
 
+//función para cargar los elementos
 function createElements(contenedor) {
 	
+	//por cada resultado
 	results.forEach(pelicula => {
 
 		//crear y añadir el contenedor de la película
@@ -75,7 +85,7 @@ function createElements(contenedor) {
 		let poster;
 		//ajustando el poster
 		if (pelicula.Poster != 'N/A') {
-
+			//si hay poster, aumentarle la calidad y cargarlo en los detalles expandidos
 			poster = pelicula.Poster.split('0.');
 			poster = poster[0] + '00.' + poster[1];
 			
@@ -86,7 +96,7 @@ function createElements(contenedor) {
 			imgLink.href = poster;
 			
 		} else {
-			//si no hay poster disponible
+			//si no hay poster disponible, poner el gif de error
 			poster = 'https://cdn.dribbble.com/users/252114/screenshots/3840347/mong03b.gif'
 		}
 		
@@ -100,6 +110,7 @@ function createElements(contenedor) {
 
 		imgLink.appendChild(spanText);
 
+		//detalles básicos
 		let details = document.createElement('div');
 		details.classList.value = 'details';
 
@@ -113,19 +124,22 @@ function createElements(contenedor) {
 		detailsContent[0].innerHTML = pelicula.Title;
 		detailsContent[1].innerHTML = pelicula.Year;
 		detailsContent[2].innerHTML = pelicula.Type;
-
+		
+		//por cada elemento de los detalles básicos, cargarlo a su contenedor
 		detailsContent.forEach(element => {
 			details.appendChild(element);
 		});
 
 	});
 
+	//identificar las pelis y añadirle el evento
 	let movies = document.getElementsByClassName('movie');
 	movies = [].slice.call(movies);
 	
 	movies.forEach(movie => {
 		movie.addEventListener('click', () => {
 			ajaxReq("http://www.omdbapi.com/?apikey=ec699f85&plot=full&r=json&tomatoes=true&i="+movie.id);
+			//delay para que no se pise con la llamada ajax
 			setTimeout(() => {
 				if (movie.childNodes[0].childElementCount == 2) {
 					expandDetails(movie);
@@ -138,21 +152,28 @@ function createElements(contenedor) {
 }
 
 
+//para los detalles expandidos
 function expandDetails(source) {
 
 	//el contenedor de los detalles
 	let expandedDetails = document.createElement('div');
 	expandedDetails.classList.value = 'expanded-details';
 
+	//añadir los detalles expandidos al apartado de detalles de la peli
 	let desc = source.childNodes[0];
 
 	desc.appendChild(expandedDetails);
 
+	//crear un arreglo para registrar los títulos de los detalles expandidos
 	let titles = [];
 	
+	//por cada resultado de la búsqueda por id
 	for (const key in results) {
+		//si tiene un valor
 		if (results[key] != 'N/A' && results[key] != undefined && results[key] != null) {
+			// si es ratings, el único caso especial
 			if	(key == 'Ratings') {
+				//ponerlo en una lista
 				let ratingsContainer = document.createElement('div');
 				let resultsTitle = document.createElement('h5');
 				
@@ -177,8 +198,10 @@ function expandDetails(source) {
 	
 				ratingsContainer.appendChild(ratingsList);
 			} else {
+				//sino, si el título está entre las cosas relevantes para el usuario (presentes en el arreglo instanciado al principio)
 				if (things.includes(key)) {
 					
+					//crearlos y añadirlos al arreglo de títulos
 					let container = document.createElement('h5');
 					let span = document.createElement('span');
 	
@@ -194,16 +217,21 @@ function expandDetails(source) {
 		}
 	}
 
+
+	//por cada detalle
 	titles.forEach(title => {
 		
+		//cargarlo
 		expandedDetails.appendChild(title);
 
 	});
 
 }
 
+//añadir el evento de búsqueda al botón
 search.addEventListener("click", () => {
 
+	//validar el campo
 	if (name.value != "") {
 
 		ajaxReq("http://www.omdbapi.com/?apikey=ec699f85&s=" + name.value);
